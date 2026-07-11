@@ -1,106 +1,56 @@
 import { motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import Button from "../components/Button";
+import LoadingScreen from "../components/LoadingScreen";
+import HeroParallax from "../components/HeroParallax";
 import Reveal from "../components/Reveal";
 import SectionHeading from "../components/SectionHeading";
-import ScatterField from "../components/ScatterField";
 import ServicesHorizontalScroll from "../components/ServicesHorizontalScroll";
 import StrengthCard from "../components/StrengthCard";
-// import WorkflowSteps from "../components/WorkflowSteps";
 import Testimonials from "../components/Testimonials";
-import StatStrip from "../components/StatStrip";
 import ContactCTA from "../components/ContactCTA";
-import { stats, strengths, workflow, testimonials } from "../data/home";
+import { strengths, testimonials } from "../data/home";
 
 export default function Home() {
   return (
     <>
-      {/* HERO — fixed background, moving foreground */}
-      <section
-        className="relative flex min-h-screen items-center overflow-hidden bg-fixed bg-cover bg-center text-paper"
-        style={{
-          backgroundImage:
-            "radial-gradient(ellipse 90% 60% at 20% 0%, #16273a 0%, #101c2c 55%), radial-gradient(ellipse 60% 50% at 90% 100%, #0c3f37 0%, transparent 60%)",
-        }}
-      >
-        <div className="absolute inset-0 text-teal/50">
-          <ScatterField className="absolute right-[-10%] top-1/2 h-[640px] w-[820px] -translate-y-1/2 opacity-70" />
-        </div>
-        <div className="absolute inset-0 grain" />
+      {/* ══════════════════════════════════════════════════════════
+          INTRO — 100 vh spacer + fixed loading overlay.
+          Scrolling through the spacer drives the overlay off screen.
+          ═════════════════════════════════════════════════════════ */}
+      <LoadingScreen />
 
-        <div className="container-page relative pt-32 pb-24">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-mono text-xs uppercase tracking-[0.25em] text-teal-tint flex items-center gap-2"
-          >
-            <span className="inline-block h-px w-8 bg-teal-tint" />
-            Biomedical Statistics CRO
-          </motion.p>
+      {/* ══════════════════════════════════════════════════════════
+          HERO — sits immediately after the spacer in the DOM.
+          When the loading overlay fully exits (spacer scrolled),
+          the hero's top edge is exactly at the viewport top.
+          ═════════════════════════════════════════════════════════ */}
+      <HeroParallax />
 
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-6 max-w-3xl font-display text-[2.6rem] leading-[1.06] tracking-tight sm:text-6xl lg:text-[4.6rem]"
-          >
-            Statistics that hold up<br className="hidden sm:block" />
-            under regulatory review.
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.32 }}
-            className="mt-7 max-w-xl text-lg leading-relaxed text-paper/70"
-          >
-            Lumetrics pairs sponsors with named biostatisticians — not account teams — for
-            trial design, CDISC programming, data management, and submission-ready
-            reporting. The same statistician who writes your SAP defends it at review.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.44 }}
-            className="mt-10 flex flex-wrap items-center gap-4"
-          >
-            <Button to="/contact" variant="inverse">Talk to a statistician</Button>
-            <Button to="/services" variant="outline-light" icon={false}>
-              Explore services
-            </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-24"
-          >
-            <StatStrip stats={stats.map((s) => ({ ...s }))} />
-          </motion.div>
-        </div>
-
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 text-paper/40"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <ChevronDown size={20} />
-        </motion.div>
-      </section>
-
-      {/* ABOUT */}
+      {/* ══════════════════════════════════════════════════════════
+          ABOUT
+          ═════════════════════════════════════════════════════════ */}
       <section className="relative bg-paper py-28">
         <div className="container-page">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 items-start">
+
+            {/* Left column ─────────────────────────────────────── */}
             <div className="lg:col-span-5">
-              <SectionHeading
-                eyebrow="Who we are"
-                title="A CRO built by statisticians, still run by statisticians."
-                description="Lumetrics was founded in 2013 by three biostatisticians who kept seeing the same problem elsewhere: the person who designed a trial's analysis was rarely the person defending it in front of a review team. We built the company around fixing that."
-              />
+              {/*
+                NOTE: SectionHeading rendered DIRECTLY in a motion.div
+                (no clip-path Reveal — that was hiding the entire column).
+              */}
+              <motion.div
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <SectionHeading
+                  eyebrow="Who we are"
+                  title="A CRO built by statisticians, still run by statisticians."
+                  description="Lumetrics was founded in 2013 by three biostatisticians who kept seeing the same problem elsewhere: the person who designed a trial's analysis was rarely the person defending it in front of a review team. We built the company around fixing that."
+                />
+              </motion.div>
+
               <Reveal delay={0.2}>
                 <div className="mt-9 flex flex-wrap gap-3">
                   <span className="rounded-full border border-ink/15 px-4 py-2 text-xs font-mono uppercase tracking-wide text-white bg-ink">Est. 2013</span>
@@ -110,8 +60,9 @@ export default function Home() {
               </Reveal>
             </div>
 
+            {/* Right column ─────────────────────────────────────── */}
             <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              <Reveal delay={0.1}>
+              <Reveal delay={0.1} variant="scale">
                 <div className="rounded-3xl border-2 border-teal border-ink bg-indigo-tint p-8 h-full">
                   <p className="font-mono text-xs uppercase tracking-[0.18em] text-indigo mb-4">Mission</p>
                   <p className="font-display text-xl leading-snug text-ink">
@@ -120,7 +71,8 @@ export default function Home() {
                   </p>
                 </div>
               </Reveal>
-              <Reveal delay={0.18}>
+
+              <Reveal delay={0.18} variant="scale">
                 <div className="rounded-3xl border-2 border-indigo bg-teal-tint p-8 h-full">
                   <p className="font-mono text-xs uppercase tracking-[0.18em] text-teal-deep mb-4">Vision</p>
                   <p className="font-display text-xl leading-snug text-ink">
@@ -129,6 +81,7 @@ export default function Home() {
                   </p>
                 </div>
               </Reveal>
+
               <Reveal delay={0.26} className="sm:col-span-2">
                 <div className="rounded-3xl border border-ink/10 p-8">
                   <p className="text-ink-soft leading-relaxed">
@@ -145,10 +98,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES */}
+      {/* ══════════════════════════════════════════════════════════
+          SERVICES — unchanged from original
+          ═════════════════════════════════════════════════════════ */}
       <ServicesHorizontalScroll />
 
-      {/* WHY CHOOSE US */}
+      {/* ══════════════════════════════════════════════════════════
+          WHY CHOOSE US — unchanged from original
+          ═════════════════════════════════════════════════════════ */}
       <section className="relative bg-ink text-paper py-28 grain">
         <div className="container-page">
           <SectionHeading
@@ -165,22 +122,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* WORKFLOW
-      <section className="relative bg-ink text-paper py-28 grain">
-        <div className="container-page">
-          <SectionHeading
-            eyebrow="How we work"
-            title="A five-stage process, the same for every study."
-            description="No two protocols are alike, but the sequence that gets you from question to submission rarely changes."
-            light
-          />
-          <div className="mt-16">
-            <WorkflowSteps steps={workflow} dark />
-          </div>
-        </div>
-      </section> */}
-
-      {/* TESTIMONIALS */}
+      {/* ══════════════════════════════════════════════════════════
+          TESTIMONIALS — unchanged from original
+          ═════════════════════════════════════════════════════════ */}
       <section className="relative bg-paper py-28">
         <div className="container-page">
           <SectionHeading

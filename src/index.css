@@ -26,6 +26,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ── Lenis smooth scroll overrides ──────────────────── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
 body {
   background-color: var(--color-paper);
   color: var(--color-ink);
@@ -90,3 +102,39 @@ body {
   outline-offset: 3px;
   border-radius: 2px;
 }
+
+/* ── Morphing blob keyframes ─────────────────────────── */
+@keyframes blob-morph-1 {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%       { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%       { border-radius: 50% 60% 30% 40% / 40% 50% 60% 30%; }
+  75%       { border-radius: 40% 30% 60% 70% / 60% 40% 30% 70%; }
+}
+@keyframes blob-morph-2 {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  33%       { border-radius: 70% 30% 50% 60% / 50% 70% 30% 60%; }
+  66%       { border-radius: 30% 70% 40% 60% / 70% 30% 60% 40%; }
+}
+@keyframes blob-morph-3 {
+  0%, 100% { border-radius: 70% 30% 40% 60% / 30% 60% 40% 70%; }
+  50%       { border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; }
+}
+
+.morphing-blob {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+.morph-1 { animation-name: blob-morph-1; animation-duration: 12s; }
+.morph-2 { animation-name: blob-morph-2; animation-duration: 15s; }
+.morph-3 { animation-name: blob-morph-3; animation-duration: 10s; }
+
+/* ── Geometric accent float ──────────────────────────── */
+@keyframes accent-float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-10px) rotate(6deg); }
+}
+
+/* ── Clip-path reveal helper (used by Reveal variant="clip") ─ */
+.clip-hidden { clip-path: inset(0 0 100% 0); }
+.clip-visible { clip-path: inset(0 0 0% 0); }
