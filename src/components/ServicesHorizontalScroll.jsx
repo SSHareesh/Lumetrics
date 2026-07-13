@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowRight, LineChart, Terminal, Database, Users, FileCheck2, PenLine } from "lucide-react";
+import { LineChart, Terminal, Database, Users, FileCheck2, PenLine } from "lucide-react";
 import { services } from "../data/nav";
 import ServiceIllustration from "./ServiceIllustration";
 import Button from "./Button";
@@ -111,29 +110,39 @@ function ImageCard({ service, tone, className = "" }) {
 
 function InfoCard({ service, index, tone, className = "" }) {
   const bullets = highlights[service.slug] || [];
+  const isOdd = index % 2 === 0;
 
   return (
     <motion.div
-      className={`flex flex-col justify-between rounded-3xl border bg-surface p-5 sm:p-6 ${accentBorder[tone]} ${className}`}
-      initial={{ borderColor: "rgba(16,28,44,0.10)" }}
+      className={`flex flex-col justify-between rounded-3xl border p-5 sm:p-6 ${className} ${
+        isOdd
+          ? "bg-paper-dim border-ink/10 text-ink shadow-[0_2px_12px_0_rgba(16,28,44,0.05)]"
+          : "bg-ink border-white/10 text-paper shadow-[0_8px_30px_-12px_rgba(0,0,0,0.3)]"
+      }`}
+      initial={{ scale: 1 }}
       whileHover={{ y: -5, scale: 1.012 }}
       transition={{ type: "spring", stiffness: 280, damping: 20 }}
-      style={{
-        boxShadow: "0 2px 12px 0 rgba(16,28,44,0.07)",
-      }}
     >
       {/* Header row */}
       <div className="min-h-0 overflow-hidden">
         <div className="flex justify-end">
-          <span className="font-mono text-[0.65rem] text-ink-soft/40">
+          <span
+            className={`font-mono text-[0.65rem] ${
+              isOdd ? "text-ink-soft/40" : "text-paper/40"
+            }`}
+          >
             0{index + 1}
           </span>
         </div>
 
-        <h3 className="mt-3 font-display text-[1.1rem] sm:text-[1.2rem] text-ink leading-snug tracking-tight">
+        <h3 className={`mt-3 font-display text-[1.1rem] sm:text-[1.2rem] leading-snug tracking-tight ${
+          isOdd ? "text-ink" : "text-paper"
+        }`}>
           {service.title}
         </h3>
-        <p className="mt-1.5 text-[0.82rem] leading-relaxed text-ink-soft line-clamp-3">
+        <p className={`mt-1.5 text-[0.82rem] leading-relaxed line-clamp-3 ${
+          isOdd ? "text-ink-soft" : "text-paper/70"
+        }`}>
           {service.short}
         </p>
 
@@ -141,8 +150,17 @@ function InfoCard({ service, index, tone, className = "" }) {
         {bullets.length > 0 && (
           <ul className="mt-3 space-y-1">
             {bullets.map((b) => (
-              <li key={b} className="flex items-center gap-2 text-[0.76rem] text-ink-soft">
-                <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${accentText[tone]} bg-current`} />
+              <li
+                key={b}
+                className={`flex items-center gap-2 text-[0.76rem] ${
+                  isOdd ? "text-ink-soft" : "text-paper/75"
+                }`}
+              >
+                <span
+                  className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
+                    isOdd ? accentText[tone] + " bg-current" : "bg-paper"
+                  }`}
+                />
                 {b}
               </li>
             ))}
@@ -151,16 +169,13 @@ function InfoCard({ service, index, tone, className = "" }) {
       </div>
 
       {/* Footer CTA */}
-      <Link
+      <Button
         to={`/services/${service.slug}`}
-        className={`group mt-4 inline-flex shrink-0 items-center gap-2 text-[0.82rem] font-medium ${accentText[tone]}`}
+        variant={isOdd ? "primary" : "inverse"}
+        className="mt-4 self-start"
       >
-        <Button className="">Learn more</Button>
-        {/* <ArrowRight
-          size={13}
-          className="transition-transform duration-300 group-hover:translate-x-1"
-        /> */}
-      </Link>
+        Learn more
+      </Button>
     </motion.div>
   );
 }

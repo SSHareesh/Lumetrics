@@ -52,4 +52,14 @@ export const testimonials = [
     name: "Head of Biometrics",
     org: "Specialty pharma company",
   },
+  {
+    quote: "We needed standard SDTM datasets converted from a legacy database in under a month. They delivered submission-quality files five days early with zero validation issues.",
+    name: "Director of Biostatistics",
+    org: "Phase II immunology startup",
+  },
+  {
+    quote: "Having the same lead statistician defend our protocol design directly to the regulatory panel was game-changing. Their depth of preparation gave the entire team confidence.",
+    name: "Chief Medical Officer",
+    org: "Global cardiovascular sponsor",
+  },
 ];

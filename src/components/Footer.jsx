@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="md:col-span-4">
             <Link to="/" className="flex items-center gap-2.5">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-paper text-ink font-display text-sm">
-                M
+                L
               </span>
               <span className="font-display text-lg text-paper tracking-tight">Lumetrics<span className="text-teal">.</span></span>
             </Link>
